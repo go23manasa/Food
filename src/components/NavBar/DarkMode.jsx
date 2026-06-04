@@ -1,53 +1,43 @@
-import React from 'react'
-import Darkimg from "../../assets/DarkMode.png"
-import Lightimg from "../../assets/LightMode.png"
+import React, { useEffect, useState } from 'react'
+import { MdDarkMode, MdLightMode } from 'react-icons/md'
 
 const DarkMode = () => {
-    const [theme, setTheme] = React.useState(
-        localStorage.getItem("theme") || "light"
-    );
-    const element = document.documentElement;
-    React.useEffect(() => {
-        if (theme === "dark"){
-            element.classList.add("dark");
-            localStorage.setItem("theme","dark");
-        } else {
-            element.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-        }
-        }, [theme]);
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+    return 'light';
+  });
 
-        const changeTheme = () => {
-            if(theme === "light"){
-                setTheme("dark");
-            } else {
-                setTheme("light");
-            }
-        };
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      document.body.style.backgroundColor = '#111827';
+    } else {
+      root.classList.remove('dark');
+      document.body.style.backgroundColor = '';
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
   return (
-    <>
-        <div className="relative">
-            <img 
-            src={Darkimg}
-            alt=""
-            onClick={changeTheme}
-            className={`w-12 absolute right-0 z-10 cursor-pointer drop-shadow-[1px_1px_1px_rgba(0,0,0,0.1)] transition-all duration-300 ${ 
-                theme === "light" ? "opacity-0" :"opacity-100" 
-            } `}
-            />
-            <img 
-            src={Lightimg}
-            alt=""
-            onClick={changeTheme}
-            className={`w-12 cursor-pointer drop-shadow-[1px_1px_1px_rgba(0,0,0,0.1)] transition-all duration-300 ${
-            theme === "dark" ? "opacity-0" 
-            : "opacity-100"
-            }`}
-            />
-        </div>
-    </>
-  )
-}
+    <button
+      onClick={() => setTheme(t => t === 'light' ? 'dark' : 'light')}
+      aria-label="Toggle dark mode"
+      className="w-9 h-9 flex items-center justify-center rounded-full
+        bg-gray-100 dark:bg-gray-700
+        hover:bg-primary/20 dark:hover:bg-primary/30
+        text-gray-600 dark:text-yellow-300
+        transition-all duration-300 hover:scale-110"
+    >
+      {theme === 'dark'
+        ? <MdLightMode className="text-xl" />
+        : <MdDarkMode className="text-xl" />
+      }
+    </button>
+  );
+};
 
-export default DarkMode
-
+export default DarkMode;

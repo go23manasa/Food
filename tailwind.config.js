@@ -11,6 +11,10 @@ export default {
       primary: "#ffc001",
       secondary: "#ff9c01",
     },
+    fontFamily: {
+      display: ["'Playfair Display'", "serif"],
+      body: ["'DM Sans'", "sans-serif"],
+    },
     container: {
       center:true,
       padding:{

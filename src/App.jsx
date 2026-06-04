@@ -6,20 +6,32 @@ import Banner from "./components/Banner/Banner"
 import AppStore from "./components/AppStore/AppStore"
 import Testimonial from './components/Testimonial/Testimonial'
 import Footer from './components/Footer/Footer'
+import Toast from './components/Toast/Toast'
 
 const App = () => {
   return (
     <>
       <NavBar />
-      <Hero />
+
+      <div id="hero-section">
+        <Hero />
+      </div>
+
       <Services />
-      <Banner />
+
+      <div id="about-section">
+        <Banner />
+      </div>
+
       <AppStore />
+
       <Testimonial />
+
       <Footer />
+
+      <Toast />
     </>
   )
 }
 
 export default App
-
